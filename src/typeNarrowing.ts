@@ -87,3 +87,83 @@ function servingChai(msg?: string) {
 
 // In the above case, you can see we are using optional parameter...which means that either the parameter will be having a string or it will be undefined...and we are narrowing it to string and to undefined.
 
+function orderChai(size: "small" | "medium" | "large" | number) {
+    if(size === "small") return "small cutting chai";
+    if(size === "medium" || size === "large") return "make extra chai";
+    return `order chai #${size}`;
+}
+
+// again here in the way, we narrowed the type of size to small, to medium or large and to number. This is a case of exhaustive type checking. 
+
+class kulhadChai {
+    serve () {
+        return "serving kulhad chai";
+    }
+}
+class cuttingChai {
+    serve () {
+        return "serving cutting chai";
+    }
+}
+
+function serve(chai: kulhadChai | cuttingChai) {
+    if(chai instanceof kulhadChai) return chai.serve();
+}
+
+// the parameter chai can accept assignment from both kulhadChai and cuttingChai and hence we narrowed its type to kulhadChai
+
+// We can also use type keyword for defining our own custom types
+
+// custom types and type-guards
+
+type chaiOrder = {
+    type: string;
+    sugar: number;
+}
+
+function isChaiOrder(obj: any): obj is chaiOrder {
+    return (
+        typeof obj === "object" &&
+        obj !== null &&
+        typeof obj.type === "string" &&
+        typeof obj.sugar === "number"
+    )
+}
+
+function serveChai(item: chaiOrder | string) {
+    if(isChaiOrder(item)) return `serving ${item} chai with ${item.sugar}`;
+    return "chai is out of stock";
+}
+
+// Nesting of types is also possible
+
+type MasalaChai = {type: "masala"; spicelevel: number}; // by convention type identifiers are always started with capital letter
+type GingerChai = {type: "ginger"; amount: number};
+type ElaichiChai = {type: "elaichi"; aroma: number};
+
+type Chai = MasalaChai | GingerChai | ElaichiChai
+
+function MakeChai(order: Chai) {
+    switch (order.type) {
+        case "masala":
+            return "serving masala chai";
+            break;
+        case "ginger":
+            return "serving ginger chai";
+            break;
+        case "elaichi":
+            return "serving elaichi chai";
+            break;
+    }
+}
+
+// we don't need default case here, as it is already exhaustive and covers all the possible types
+
+// there is another but not recommended way of writting type guards
+
+function brew(order: MasalaChai | GingerChai) {
+    if("spicelevel" in order) {
+        // this will narrow to type MasalaChai
+    }
+}
+

@@ -109,7 +109,7 @@ class students implements Student {
   }
 }
 
-// union( | ): let's say you are taking union of multiple types or multiple custom types then assume set of variables corresponding to each type so taking union of all of them will give set of all such variables that has signature similar or identical to atleast one of them
+// union( | ): taking the union of multiple types gives a type whose set of valid values consists of all values that satisfy at least one of the constituent types.
 
 // example:-
 
@@ -121,9 +121,9 @@ type B = {
     age: number;
 }
 
-type C = A | B ; // it will accept {name,...}, {age,...}, {name, age,...}
+type C = A | B ; // it will accept {name}, {age}, {name, age}
 
-// intersection( & ): let's say you are taking intersection of multiple types or multiple custom types then assume set of variables corresponding to each type so taking intersection of all of them will give the set of all such variables whose signature includes the signature of all of them, basically the variables which are common to all such sets 
+// intersection( & ): When you take the intersection of multiple types, the resulting type contains all values that satisfy every constituent type simultaneously. In other words, a value must include the requirements (structure) of all the intersected types.
 
 // example:-
 
@@ -135,7 +135,7 @@ type Y = {
     age: number;
 }
 
-type Z = X & Y; // it will accept {name, age,...}
+type Z = X & Y; // it will accept {name, age}
 
 // you can also add optional properties and also keep some properties readOnly properties
 
